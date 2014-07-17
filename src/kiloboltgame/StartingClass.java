@@ -11,9 +11,10 @@ import java.net.URL;
 
 public class StartingClass extends Applet implements Runnable, KeyListener {
 	private Robot robot;
-	private Image image, character;
+	private Image image, character, background;
 	private URL base;
 	private Graphics second;
+	private static Background bg1, bg2;
 
 	@Override
 	public void init() {
@@ -29,10 +30,13 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 			// Handle expression
 		}
 		character = getImage(base, "data/character.png");
+		background = getImage(base, "data/background.png");
 	}
 
 	@Override
 	public void start() {
+		bg1 = new Background(0, 0);
+		bg2 = new Background(2160, 0);
 		robot = new Robot();
 		Thread thread = new Thread(this);
 		thread.start();
@@ -53,6 +57,8 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 	public void run() {
 		while (true) {
 			robot.update();
+			bg1.update();
+			bg2.update();
 			repaint();
 			try {
 				Thread.sleep(17);
@@ -78,7 +84,9 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 
 	@Override
 	public void paint(Graphics g) {
-		g.drawImage(character, robot.getCenterX()-61, robot.getCenterY()-63, this);
+		g.drawImage(background, bg1.getBgX(), bg1.getBgY(), this);
+		g.drawImage(background, bg2.getBgX(), bg2.getBgY(), this);
+		g.drawImage(character, robot.getCenterX()-61, robot.getCenterY()-63, this);		
 	}
 
 	public void keyPressed(KeyEvent e) {
@@ -124,6 +132,22 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 	public void keyTyped(KeyEvent e) {
 		// TODO Auto-generated method stub
 
+	}
+
+	public static Background getBg1() {
+		return bg1;
+	}
+
+	public static void setBg1(Background bg1) {
+		StartingClass.bg1 = bg1;
+	}
+
+	public static Background getBg2() {
+		return bg2;
+	}
+
+	public static void setBg2(Background bg2) {
+		StartingClass.bg2 = bg2;
 	}
 
 }
