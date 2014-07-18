@@ -113,7 +113,7 @@ public class Robot {
     }
 
     public void stopLeft() {
-        setMovingLeft(false);
+        setMovingLeft(false); 
         stop();
     }
 	
