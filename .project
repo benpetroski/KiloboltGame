@@ -14,11 +14,4 @@
 	<natures>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
-	<linkedResources>
-		<link>
-			<name>src/data/background.png</name>
-			<type>1</type>
-			<location>C:/Users/benPetroski/Documents/GitHub/KiloboltGame/src/data/background.png</location>
-		</link>
-	</linkedResources>
 </projectDescription>
