@@ -5,8 +5,8 @@ import java.util.ArrayList;
 public class Robot {
 
     // Constants are Here
-    final int JUMPSPEED = -25;
-    final int MOVESPEED = 10;
+    final int JUMPSPEED = -15;
+    final int MOVESPEED = 5;
     final int GROUND = 382;
     
     private int centerX = 100;
