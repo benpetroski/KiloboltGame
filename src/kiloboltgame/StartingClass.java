@@ -8,11 +8,13 @@ import java.awt.Image;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.net.URL;
+import java.util.ArrayList;
 
 public class StartingClass extends Applet implements Runnable, KeyListener {
 
     private Robot robot;
-    private Image image, currentSprite, character, characterDown, characterJumped, background;
+    private Heliboy hb1, hb2;
+    private Image image, currentSprite, character, characterDown, characterJumped, background, heliboy;
     private Graphics second;
     private URL base;
     private static Background bg1, bg2;
@@ -38,13 +40,17 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
         characterJumped = getImage(base, "data/jumped.png");
         currentSprite = character;
         background = getImage(base, "data/background.png");
+        heliboy = getImage(base, "data/heliboy.png");
     }
 
     @Override
     public void start() {
         
         bg1 = new Background(0,0);
-        bg2 = new Background(2160, 0);                robot = new Robot();
+        bg2 = new Background(2160, 0);                
+        robot = new Robot();
+        hb1 = new Heliboy(340, 360);
+        hb2 = new Heliboy(700, 360);
 
         Thread thread = new Thread(this);
         thread.start();
@@ -68,6 +74,19 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
             }else if (robot.isJumped() == false && robot.isDucked() == false){
                 currentSprite = character;
             }
+            
+            ArrayList<Projectile> projectiles = robot.getProjectiles();
+            for (int i=0; i<projectiles.size(); i++){
+            	Projectile p = (Projectile) projectiles.get(i);
+            	if (p.isVisible() == true) {
+            		p.update();
+            	} else {
+            		projectiles.remove(i);
+            	}
+            }
+            
+            hb1.update();
+            hb2.update();
             bg1.update();
             bg2.update();
             repaint();
@@ -92,15 +111,23 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
         paint(second);
 
         g.drawImage(image, 0, 0, this);
-
     }
 
     @Override
     public void paint(Graphics g) {
         g.drawImage(background, bg1.getBgX(), bg1.getBgY(), this);
         g.drawImage(background, bg2.getBgX(), bg2.getBgY(), this);
+        
+        ArrayList<Projectile> projectiles = robot.getProjectiles();
+        for (int i=0; i<projectiles.size(); i++) {
+        	Projectile p = (Projectile) projectiles.get(i);
+        	g.setColor(Color.YELLOW);
+        	g.fillRect(p.getX(), p.getY(), 10, 5);
+        }
+        
         g.drawImage(currentSprite, robot.getCenterX() - 61, robot.getCenterY() - 63, this);
-
+        g.drawImage(heliboy, hb1.getCenterX()-48, hb1.getCenterY()-48, this);
+        g.drawImage(heliboy, hb2.getCenterX()-48, hb2.getCenterY()-48, this);
     }
 
     public void keyPressed(KeyEvent e) {
@@ -132,8 +159,12 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
             robot.jump();
             break;
 
+        case KeyEvent.VK_CONTROL:
+        	if (robot.isDucked() == false) {
+        		robot.shoot();
+        	}            
+        	break;
         }
-
     }
 
     public void keyReleased(KeyEvent e) {
