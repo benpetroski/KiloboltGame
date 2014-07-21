@@ -17,7 +17,7 @@ import kiloboltgame.framework.Animation;
 
 public class StartingClass extends Applet implements Runnable, KeyListener {
 
-    private Robot robot;
+    private static Robot robot;
     private Heliboy hb1, hb2;
     private Image image, currentSprite, character, character2, character3, characterDown, characterJumped, background, heliboy, heliboy2, heliboy3, heliboy4, heliboy5;
     public static Image tilegrassTop, tilegrassBot, tilegrassLeft, tilegrassRight, tiledirt;
@@ -84,15 +84,13 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
         
         bg1 = new Background(0,0);
         bg2 = new Background(2160, 0);    
-        
+        robot = new Robot();
         try {
             loadMap("data/map1.txt");
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        
-        robot = new Robot();
         hb1 = new Heliboy(340, 360);
         hb2 = new Heliboy(700, 360);
 
@@ -260,6 +258,7 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
         case KeyEvent.VK_CONTROL:
         	if (robot.isDucked() == false) {
         		robot.shoot();
+        		robot.setReadyToFire(false);
         	}            
         	break;
         }
@@ -287,6 +286,9 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
         case KeyEvent.VK_SPACE:
             break;
 
+        case KeyEvent.VK_CONTROL:
+        	robot.setReadyToFire(true);
+        	break;
         }
 
     }
@@ -303,5 +305,9 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
     public static Background getBg2() {
         return bg2;
     }
+
+	public static Robot getRobot() {
+		return robot;
+	}
 
 }
