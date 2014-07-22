@@ -1,5 +1,6 @@
 package kiloboltgame;
 
+import java.awt.Rectangle;
 import java.util.ArrayList;
 
 public class Robot {
@@ -19,6 +20,8 @@ public class Robot {
     private static Background bg2 = StartingClass.getBg2();
     private int speedX = 0;
     private int speedY = 0;
+    public static Rectangle rect1 = new Rectangle(0,0,0,0);
+    public static Rectangle rect2 = new Rectangle(0,0,0,0);
     private ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
 
     public void update() {
@@ -52,6 +55,8 @@ public class Robot {
         if (centerX + speedX <= 60) {
             centerX = 61;
         }
+        rect1.setRect(centerX-34, centerY-63, 68, 63);
+        rect2.setRect(rect1.getX(), rect1.getY()+63, 68, 64);
     }
 
     public void moveRight() {
