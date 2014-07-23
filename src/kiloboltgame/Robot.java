@@ -22,6 +22,11 @@ public class Robot {
     private int speedY = 0;
     public static Rectangle rect1 = new Rectangle(0,0,0,0);
     public static Rectangle rect2 = new Rectangle(0,0,0,0);
+    public static Rectangle rect3 = new Rectangle(0,0,0,0);
+    public static Rectangle rect4 = new Rectangle(0,0,0,0);
+    public static Rectangle intersect = new Rectangle(0,0,0,0);
+    public static Rectangle footright = new Rectangle(0,0,0,0);
+    public static Rectangle footleft = new Rectangle(0,0,0,0);
     private ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
 
     public void update() {
@@ -47,8 +52,9 @@ public class Robot {
         centerY += speedY;
 
         // Handles Jumping
-        if (jumped == true) {
-            speedY += 1;
+        speedY += 1;
+        if (speedY>3) {
+            jumped=true;
         }
 
         // Prevents going beyond X coordinate of 0
@@ -57,6 +63,11 @@ public class Robot {
         }
         rect1.setRect(centerX-34, centerY-63, 68, 63);
         rect2.setRect(rect1.getX(), rect1.getY()+63, 68, 64);
+        rect3.setRect(rect1.getX()-26, rect1.getY()+32, 26, 20);
+        rect4.setRect(rect1.getX()+68, rect1.getY()+32, 26, 20);
+        intersect.setRect(centerX-110, centerY-110, 180, 180);
+        footleft.setRect(centerX-50, centerY+20, 50, 15);
+        footright.setRect(centerX, centerY+20, 180, 180);
     }
 
     public void moveRight() {

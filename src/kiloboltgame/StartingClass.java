@@ -200,8 +200,6 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
         	g.setColor(Color.YELLOW);
         	g.fillRect(p.getX(), p.getY(), 10, 5);
         }
-        g.drawRect((int)Robot.rect1.getX(), (int)Robot.rect1.getY(), (int)Robot.rect1.getWidth(), (int)Robot.rect1.getHeight());
-        g.drawRect((int)Robot.rect2.getX(), (int)Robot.rect2.getY(), (int)Robot.rect2.getWidth(), (int)Robot.rect2.getHeight());
         g.drawImage(currentSprite, robot.getCenterX() - 61, robot.getCenterY() - 63, this);
         g.drawImage(hanim.getImage(), hb1.getCenterX()-48, hb1.getCenterY()-48, this);
         g.drawImage(hanim.getImage(), hb2.getCenterX()-48, hb2.getCenterY()-48, this);
