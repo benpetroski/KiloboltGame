@@ -62,7 +62,7 @@ public class Robot {
             centerX = 61;
         }
         rect1.setRect(centerX-34, centerY-63, 68, 63);
-        rect2.setRect(rect1.getX(), rect1.getY()+63, 68, 64);
+        rect2.setRect(rect1.getX(), rect1.getY()+63, 68, 63);
         rect3.setRect(rect1.getX()-26, rect1.getY()+32, 26, 20);
         rect4.setRect(rect1.getX()+68, rect1.getY()+32, 26, 20);
         intersect.setRect(centerX-110, centerY-110, 180, 180);
