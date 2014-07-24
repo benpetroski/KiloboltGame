@@ -5,188 +5,199 @@ import java.util.ArrayList;
 
 public class Robot {
 
-    // Constants are Here
-    final int JUMPSPEED = -15;
-    final int MOVESPEED = 5;
-    
-    private int centerX = 100;
-    private int centerY = 377;
-    private boolean jumped = false;
-    private boolean movingLeft = false;
-    private boolean movingRight = false;
-    private boolean ducked = false;
-    private boolean readyToFire = true;
-    private static Background bg1 = StartingClass.getBg1();                 
-    private static Background bg2 = StartingClass.getBg2();
-    private int speedX = 0;
-    private int speedY = 0;
-    public static Rectangle rect1 = new Rectangle(0,0,0,0);
-    public static Rectangle rect2 = new Rectangle(0,0,0,0);
-    public static Rectangle rect3 = new Rectangle(0,0,0,0);
-    public static Rectangle rect4 = new Rectangle(0,0,0,0);
-    public static Rectangle intersect = new Rectangle(0,0,0,0);
-    public static Rectangle footright = new Rectangle(0,0,0,0);
-    public static Rectangle footleft = new Rectangle(0,0,0,0);
-    private ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
+	// Constants are Here
+	final int JUMPSPEED = -15;
+	final int MOVESPEED = 5;
 
-    public void update() {
+	private int centerX = 100;
+	private int centerY = 377;
+	private boolean jumped = false;
+	private boolean movingLeft = false;
+	private boolean movingRight = false;
+	private boolean ducked = false;
+	private boolean readyToFire = true;
 
-        // Moves Character or Scrolls Background accordingly.
-        if (speedX < 0) {
-            centerX += speedX;
-        }
-        if (speedX == 0 || speedX < 0) {
-            bg1.setSpeedX(0);
-            bg2.setSpeedX(0);
+	private int speedX = 0;
+	private int speedY = 0;
+	public static Rectangle rect = new Rectangle(0, 0, 0, 0);
+	public static Rectangle rect2 = new Rectangle(0, 0, 0, 0);
+	public static Rectangle rect3 = new Rectangle(0, 0, 0, 0);
+	public static Rectangle rect4 = new Rectangle(0, 0, 0, 0);
+	public static Rectangle yellowRed = new Rectangle(0, 0, 0, 0);
+	
+	public static Rectangle footleft = new Rectangle(0,0,0,0);
+	public static Rectangle footright = new Rectangle(0,0,0,0);
+	
+	
+	private Background bg1 = StartingClass.getBg1();
+	private Background bg2 = StartingClass.getBg2();
 
-        }
-        if (centerX <= 200 && speedX > 0) {
-            centerX += speedX;
-        }
-        if (speedX > 0 && centerX > 200){
-            bg1.setSpeedX(-MOVESPEED/5);
-            bg2.setSpeedX(-MOVESPEED/5);
-        }
+	private ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
 
-        // Updates Y Position
-        centerY += speedY;
+	public void update() {
+		// Moves Character or Scrolls Background accordingly.
 
-        // Handles Jumping
-        speedY += 1;
-        if (speedY>3) {
-            jumped=true;
-        }
+		if (speedX < 0) {
+			centerX += speedX;
+		}
+		if (speedX == 0 || speedX < 0) {
+			bg1.setSpeedX(0);
+			bg2.setSpeedX(0);
 
-        // Prevents going beyond X coordinate of 0
-        if (centerX + speedX <= 60) {
-            centerX = 61;
-        }
-        rect1.setRect(centerX-34, centerY-63, 68, 63);
-        rect2.setRect(rect1.getX(), rect1.getY()+63, 68, 63);
-        rect3.setRect(rect1.getX()-26, rect1.getY()+32, 26, 20);
-        rect4.setRect(rect1.getX()+68, rect1.getY()+32, 26, 20);
-        intersect.setRect(centerX-110, centerY-110, 180, 180);
-        footleft.setRect(centerX-50, centerY+20, 50, 15);
-        footright.setRect(centerX, centerY+20, 180, 180);
-    }
+		}
+		if (centerX <= 200 && speedX > 0) {
+			centerX += speedX;
+		}
+		if (speedX > 0 && centerX > 200) {
+			bg1.setSpeedX(-MOVESPEED / 5);
+			bg2.setSpeedX(-MOVESPEED / 5);
+		}
 
-    public void moveRight() {
-        if (ducked == false) {
-            speedX = MOVESPEED;
-        }
-    }
+		// Updates Y Position
+		centerY += speedY;
 
-    public void moveLeft() {
-        if (ducked == false) {
-            speedX = -MOVESPEED;
-        }
-    }
+		// Handles Jumping
 
-    public void stopRight() {
-        setMovingRight(false);
-        stop();
-    }
+			speedY += 1;
 
-    public void stopLeft() {
-        setMovingLeft(false);
-        stop();
-    }
+		if (speedY > 3){
+			jumped = true;
+		}
 
-    private void stop() {
-        if (isMovingRight() == false && isMovingLeft() == false) {
-            speedX = 0;
-        }
+		// Prevents going beyond X coordinate of 0
+		if (centerX + speedX <= 60) {
+			centerX = 61;
+		}
 
-        if (isMovingRight() == false && isMovingLeft() == true) {
-            moveLeft();
-        }
+		rect.setRect(centerX - 34, centerY - 63, 68, 63);
+		rect2.setRect(rect.getX(), rect.getY() + 63, 68, 63);
+		rect3.setRect(rect.getX() - 26, rect.getY()+32, 26, 20);
+		rect4.setRect(rect.getX() + 68, rect.getY()+32, 26, 20);
+		yellowRed.setRect(centerX - 110, centerY - 110, 180, 180);
 
-        if (isMovingRight() == true && isMovingLeft() == false) {
-            moveRight();
-        }
+		footleft.setRect(centerX - 50, centerY + 20, 50, 15);
+		footright.setRect(centerX, centerY + 20, 50, 15);
 
-    }
 
-    public void jump() {
-        if (jumped == false) {
-            speedY = JUMPSPEED;
-            jumped = true;
-        }
+	}
 
-    }
-    
-    public void shoot() {
-    	if (readyToFire) {
-    		Projectile p = new Projectile(centerX + 50, centerY - 25);
-    		projectiles.add(p);
-    	}    	
-    }
+	public void moveRight() {
+		if (ducked == false) {
+			speedX = MOVESPEED;
+		}
+	}
 
-    public int getCenterX() {
-        return centerX;
-    }
+	public void moveLeft() {
+		if (ducked == false) {
+			speedX = -MOVESPEED;
+		}
+	}
 
-    public int getCenterY() {
-        return centerY;
-    }
+	public void stopRight() {
+		setMovingRight(false);
+		stop();
+	}
 
-    public boolean isJumped() {
-        return jumped;
-    }
+	public void stopLeft() {
+		setMovingLeft(false);
+		stop();
+	}
 
-    public int getSpeedX() {
-        return speedX;
-    }
+	private void stop() {
+		if (isMovingRight() == false && isMovingLeft() == false) {
+			speedX = 0;
+		}
 
-    public int getSpeedY() {
-        return speedY;
-    }
+		if (isMovingRight() == false && isMovingLeft() == true) {
+			moveLeft();
+		}
 
-    public void setCenterX(int centerX) {
-        this.centerX = centerX;
-    }
+		if (isMovingRight() == true && isMovingLeft() == false) {
+			moveRight();
+		}
 
-    public void setCenterY(int centerY) {
-        this.centerY = centerY;
-    }
+	}
 
-    public void setJumped(boolean jumped) {
-        this.jumped = jumped;
-    }
+	public void jump() {
+		if (jumped == false) {
+			speedY = JUMPSPEED;
+			jumped = true;
+		}
 
-    public void setSpeedX(int speedX) {
-        this.speedX = speedX;
-    }
+	}
 
-    public void setSpeedY(int speedY) {
-        this.speedY = speedY;
-    }
+	public void shoot() {
+		if (readyToFire) {
+			Projectile p = new Projectile(centerX + 50, centerY - 25);
+			projectiles.add(p);
+		}
+	}
 
-    public boolean isDucked() {
-        return ducked;
-    }
+	public int getCenterX() {
+		return centerX;
+	}
 
-    public void setDucked(boolean ducked) {
-        this.ducked = ducked;
-    }
+	public int getCenterY() {
+		return centerY;
+	}
 
-    public boolean isMovingRight() {
-        return movingRight;
-    }
+	public boolean isJumped() {
+		return jumped;
+	}
 
-    public void setMovingRight(boolean movingRight) {
-        this.movingRight = movingRight;
-    }
+	public int getSpeedX() {
+		return speedX;
+	}
 
-    public boolean isMovingLeft() {
-        return movingLeft;
-    }
+	public int getSpeedY() {
+		return speedY;
+	}
 
-    public void setMovingLeft(boolean movingLeft) {
-        this.movingLeft = movingLeft;
-    }
+	public void setCenterX(int centerX) {
+		this.centerX = centerX;
+	}
 
-	public ArrayList<Projectile> getProjectiles() {
+	public void setCenterY(int centerY) {
+		this.centerY = centerY;
+	}
+
+	public void setJumped(boolean jumped) {
+		this.jumped = jumped;
+	}
+
+	public void setSpeedX(int speedX) {
+		this.speedX = speedX;
+	}
+
+	public void setSpeedY(int speedY) {
+		this.speedY = speedY;
+	}
+
+	public boolean isDucked() {
+		return ducked;
+	}
+
+	public void setDucked(boolean ducked) {
+		this.ducked = ducked;
+	}
+
+	public boolean isMovingRight() {
+		return movingRight;
+	}
+
+	public void setMovingRight(boolean movingRight) {
+		this.movingRight = movingRight;
+	}
+
+	public boolean isMovingLeft() {
+		return movingLeft;
+	}
+
+	public void setMovingLeft(boolean movingLeft) {
+		this.movingLeft = movingLeft;
+	}
+
+	public ArrayList getProjectiles() {
 		return projectiles;
 	}
 
